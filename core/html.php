@@ -6,14 +6,16 @@ class HtmlController {
 	private array $css_list;
 	private array $font_list;
 	private string $title = '';
-	private string $view;
+	private string $header_view;
+	private string $content_view;
+	private string $footer_view;
 	private string $data;
 
 	private function __construct($view) {
 		$this->view = $view;
 	}
 
-	public static function new(string $view = "base.php"): self {
+	public static function new(string $view = "core/view/404.php"): self {
 		return new static($view);
 	}
 
@@ -48,6 +50,6 @@ class HtmlController {
 	}
 	
 	function render() {
-		include "base.php";
+		include "core/view/base.php";
 	}
 }

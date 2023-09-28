@@ -6,12 +6,6 @@
 	<title><?= $this?->title ?></title>
 </head>
 <body>
-	<main>
-		<?php
-			var_dump($this)
-				
-		?>
-
-	</main>
+	<div style="border: 1px solid black"><?php include $this->view ?></div>
 </body>
 </html>
