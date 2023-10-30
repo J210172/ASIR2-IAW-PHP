@@ -13,7 +13,7 @@ $tamano = $_GET['tamano'] ?? null;
     <button><a href="?">Limpiar</a></button>
 </form>
 
-<pre style="font-weight:bold;font-size:2em;font-family:'Comic Sans';color:greenyellow">
+<pre style="font-weight:bold;font-size:2em;font-family:Monospace;color:greenyellow">
 <?php 
 if ($caracter !== null && $tamano !== null)
 {
