@@ -40,10 +40,10 @@ function contar_caracteres1(string $texto, string $caracteres = "aeiou", bool $n
 
     if ($noCeros) {
         $array_caracteres = array_filter(
-                $array_caracteres,
-                fn($v, $k) => $v != 0,
-                ARRAY_FILTER_USE_BOTH
-            );
+            $array_caracteres,
+            fn($v, $k) => $v != 0,
+            ARRAY_FILTER_USE_BOTH
+        );
     }
 
     return $array_caracteres;
@@ -64,27 +64,29 @@ function contar_caracteres(string $texto, string $caracteres = "aeiou", bool $no
 
     if ($noCeros) {
         $array_caracteres = array_filter(
-                $array_caracteres,
-                fn($v, $k) => $v != 0,
-                ARRAY_FILTER_USE_BOTH
-            );
+            $array_caracteres,
+            fn($v, $k) => $v != 0,
+            ARRAY_FILTER_USE_BOTH
+        );
     }
 
-    $string = Transliterator::create('Any-Latin;')->transliterate("àùìòôöäÍäâÂÄ");
-
-    echo $string;
+    // $string = Transliterator::create('Any-Latin;')->transliterate("àùìòôöäÍäâÂÄ");
+    // echo $string;
 
     return $array_caracteres;
 }
 
 
 function contarVocales(string $texto, $noCeros = false, $noMayus = true) {
+    $result="";
     foreach (contar_caracteres($texto, noCeros: $noCeros, noMayus: $noMayus) as $vocal => $frec) {
-        echo "La vocal '".$vocal."' aparece '$frec' veces en el texto.<br>";
+        $result .= "<h2>La vocal '".$vocal."' aparece '$frec' veces en el texto.</h2>";
     }
+    return $result;
 }
+
+echo contarVocales("$texto");
 ?>
-<h2><?= contarVocales("$texto") ?></h2>
 
 <pre>
 Ejercicio 12

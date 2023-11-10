@@ -28,7 +28,7 @@
 							continue;
 
 						$combs[] = $num;
-						echo "<td>$num</td>";
+						echo "<td style='color:green'>$num</td>";
 					}
 				?>
 			</tr>
@@ -37,7 +37,7 @@
 				<?php
 					while (in_array($num, $combs))
 						$num = mt_rand(1, 49);
-					echo "<td color='red'>$num</td>";
+					echo "<td style='color:red'>$num</td>";
 				?>
 			</tr>
 		</tbody>

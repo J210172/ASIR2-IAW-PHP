@@ -68,8 +68,8 @@ y vaya de 0.25 en 0.25.
 Dentro de este for :
 		- Pondremos una etiqueta de línea de tabla (&lt;tr&gt;)
 		- Después llamaremos a la función con el valor que estamos 
-				recorriendo el for (por lo que nos pondrá un dato de la tabla, un &lt;td&gt;),
-				y finalmente cerraremos la etiqueta tr
+			recorriendo el for (por lo que nos pondrá un dato de la tabla, un &lt;td&gt;),
+			y finalmente cerraremos la etiqueta tr
 
 Con esto finalizaremos nuestro fichero html
 
