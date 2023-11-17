@@ -25,10 +25,10 @@
 	<div class="content middle">
 		<h1 class="mt-1">LOGIN</h1>
 		<div class="box">
-			<form enctype="multipart/form-data" class="d-grid content middle" method="post">
+			<form enctype="multipart/form-data" class="d-grid content content middle" method="post">
 				<div class="input-set">
 					<label for="file">Introduce archovo: </label>
-					<input type="file" name="file[]" id="file">
+					<input class="btn secondary" type="file" name="file[]" id="file">
 				</div>
 				<div class="input-set inline">
 					<input class="btn primary" type="submit">
@@ -38,16 +38,9 @@
 		</div>
 	</div>
 <pre>
-EJERCICIO 1
+	EJERCICIO 3
 
-Crea la siguiente función en PHP:
-
-a) Una función (tipo procedimiento, no hay valor devuelto) denominada escribirTresNumeros que reciba tres números enteros como parámetros y proceda a escribir dichos números en tres líneas en un archivo denominado datosEjercicio.txt. Si el archivo no existe, debe crearlo.
-
-b) Crea un fichero html, que incluya un formulario, en el que se pidan 3 números, y al pulsar el botón "Escribir archivo", pase a la página php mostrando el texto "Se ha escrito el archivo", y ejecute la función anterior. 
-
-c) Una función denominada obtenerSuma (tipo función, devolverá un valor numérico) que reciba una ruta de archivo como parámetro, lea los números existentes en cada línea del archivo, y devuelva la suma de todos esos números.
-
+a) Mejora la función y el formulario del Ejercicio 1, para que puedas indicar el nombre del fichero donde se escriban los 3 números.
 </pre>
 </body>
 
