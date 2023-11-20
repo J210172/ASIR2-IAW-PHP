@@ -7,7 +7,8 @@
     --fg-color-alt: black;
 
     --primary-color: blue;
-    --secondary-color: darkred;
+    --secondary-color: green;
+    --danger-color: darkred;
 
 
     --border-radius: 8px;
@@ -21,32 +22,56 @@
 html,
 body {
     min-height: 100vh;
+    height: 100vh;
     background-color: var(--bg-color-1);
     margin: 0 !important;
 }
 
 .content-30 {
     max-width: 30%;
+    width: 30%;
     margin-inline: auto;
 }
 
 .content {
     max-width: 50%;
+    width: 50%;
     margin-inline: auto;
 }
 
 .content-75 {
     max-width: 75%;
+    width: 75%;
     margin-inline: auto;
 }
 
 .middle {
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
 
 }
+
+/**
+  * TAMAÑOS
+  **/
+
+.h-100 {
+    height: 100%;
+}
+
+.min-h-100 {
+    min-height: 100%;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.min-w-100 {
+    min-width: 100%;
+}
+
 
 /** 
   * MARGENES
@@ -68,6 +93,7 @@ body {
 
 .box {
     min-width: 100%;
+    /* min-height: 400px; */
     padding: 10px;
     background-color: var(--bg-color-2);
     border-radius: var(--border-radius);
@@ -92,17 +118,20 @@ input {
     border-radius: var(--border-radius);
 }
 input[type=file] {
-    padding: 0;
-    border: unset;
+    padding: 0 10px 0 0;
+    border: unset !important;
+    width: auto;
+    white-space: nowrap;
 }
-input[type=file] #file-upload-button {
+input[type="file"]::-webkit-file-upload-button{
+    all: unset; 
+
     padding: 5px 10px;
     margin-right: 5px;
-    border-radius: var(--border-radius);
-    border: 2px solid var(--primary-color);
-    background-color: var(--bg-color-3);
-    color: var(--fg-color-alt);
 
+    background-color: var(--secondary-color);
+    border: 2px solid var(--secondary-color);
+    color: var(--fg-color-1);
 }
 
 .input-set {
