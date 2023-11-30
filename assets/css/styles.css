@@ -192,3 +192,18 @@ input[type="file"]::-webkit-file-upload-button{
     background-color: var(--bg-color-3);
     color: var(--secondary-color);
 }
+
+/**
+  * Mensajes
+  **/
+
+.error-messages {
+    border-radius: var(--border-radius);
+    padding: 10px;
+    background-color: #a227;
+    font-weight: bolder;
+}
+
+.error-message {
+    color: #ffc0cc;
+}
