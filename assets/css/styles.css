@@ -10,6 +10,13 @@
     --secondary-color: green;
     --danger-color: darkred;
 
+    --success-color: green;
+    --success-sec-color: darkgreen;
+    --success-bg-color: #2a27;
+
+    --error-color: red;
+    --error-sec-color: darkred;
+    --error-bg-color: #a227;
 
     --border-radius: 8px;
 }
@@ -193,6 +200,28 @@ input[type="file"]::-webkit-file-upload-button{
     color: var(--secondary-color);
 }
 
+.btn.danger {
+    border-radius: var(--border-radius);
+    background-color: var(--danger-color);
+    border: 2px solid var(--danger-color);
+    color: var(--fg-color-1);
+}
+
+.btn.danger-outline {
+    border-radius: var(--border-radius);
+    border: 2px solid var(--danger-color);
+    background-color: var(--bg-color-3);
+    color: var(--danger-color);
+}
+
+.close-btn {
+    margin-left: auto;
+    border-radius: 50%;
+    border: 2px solid var(--secondary-color);
+    background-color: var(--bg-color-3);
+    color: var(--secondary-color);
+}
+
 /**
   * Mensajes
   **/
@@ -206,4 +235,39 @@ input[type="file"]::-webkit-file-upload-button{
 
 .error-message {
     color: #ffc0cc;
+}
+
+.messages {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 20px;
+}
+
+.message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: var(--border-radius);
+}
+
+.message.success {
+    background-color: var(--success-bg-color);
+    border: 2px solid var(--success-sec-color);
+}
+
+.message.error {
+    background-color: var(--error-bg-color);
+    border: 2px solid var(--error-sec-color);
+}
+
+
+/**
+  * Tablas
+  **/
+
+table, table * {
+    border-collapse: collapse; 
+    border: 1px solid white;
+    padding: 5px 10px;
+    background-color: var(--bg-color-2);
 }

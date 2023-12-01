@@ -1,10 +1,19 @@
 <?php
 /* CONFIG */
-
 define("DB_HOST", "localhost");
 define("DB_USER", "root");
 define("DB_PASS", "root");
 define("DB_DATABASE", "ejercicio_1");
+
+$link = @mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
+
+if (!$link)
+die('Connect Error ('.mysqli_connect_errno().') '.mysqli_connect_error());
+
+if (!mysqli_set_charset($link, "utf8"))
+printf("Error loading character set utf8: %s\n", mysqli_error($link));
+
+$user_list_query = $link->query('SELECT * FROM usuarios');
 
 /* CONNECTION */
 if ($_SERVER['REQUEST_METHOD'] == 'POST' || true) {
@@ -16,40 +25,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || true) {
     $messages = [];
     $error_messages = [];
 
-    if (empty($username))
-    {
-        $error_messages[] = "El nombre de usuario es obligatorio";
-    } 
     
-    if (empty($passwd1))
-    {
+    if (empty($passwd1)) {
         $error_messages[] = "La contraseña es obligatoria";
     }
     
-    if ($passwd1 != $passwd2)
-    {
+    if ($passwd1 != $passwd2) {
         $error_messages[] = "Las contraseña deben coincidir";
+    }
+
+    if (empty($username)) {
+        $error_messages[] = "El nombre de usuario es obligatorio";
+    } else {
+        $user_exist_query = $link->prepare('SELECT * FROM usuarios WHERE username = ?');
+        $user_exist_query->bind_param('s', $username);
+        $user_exist_query->execute();
+        $user_exist = $user_exist_query->num_rows > 0;
+        
+        if (!$user_exists) {
+            $error_messages[] = "Ya existe un usuario con ese nombre";
+        }
     }
 
     if (empty($error_messages))
     {
-        $link = @mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
-        
-        if (!$link)
-        die('Connect Error ('.mysqli_connect_errno().') '.mysqli_connect_error());
-    
-        if (!mysqli_set_charset($link, "utf8"))
-        printf("Error loading character set utf8: %s\n", mysqli_error($link));
-    
         $query = $link->prepare("INSERT INTO usuarios (username, password) VALUES (?, ?)");
         $query->bind_param('ss', $username, $passwd1);
 
         $query->execute();
         $query->close();
-        
-        mysqli_close($link);
     }
-
 }
 
 ?>
@@ -65,13 +70,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || true) {
 
 <body>
     <div class="messages">
-        <div class="message success">
-            <p>Success</p>
-        </div>
+        <?php
+            foreach ($error_messages as $message)
+                echo "<div class='message error'><button class='btn danger-outline' onclick='this.parentElement.remove()'>x</button><p class='error-message'>$message</p></div>";
+            foreach ($messages as $message) {
+                echo "                    
+                <div class='message success'>
+                <button class='close-btn' onclick='this.parentElement.remove()'>x</button>
+                <p>$message</p>
+                </div>
+                ";
+            }
+        ?>
     </div>
 	<div class="content middle">
 		<h1 class="mt-1">LOGIN</h1>
-		<div class="box ">
+		<div class="box">
             <div <?= empty($error_messages) ? 'hidden="hidden"' : '' ?> class="content-75">
                 <div class="error-messages">
                     <?php
@@ -99,7 +113,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || true) {
 				</div>	
 			</form>
 		</div>
+        <div class="mt-1">
+            <table>
+                <thead>
+                    <tr><th colspan="3">USUARIOS</th></tr>
+                    <tr><th>#</th><th>USERNAME</th><th>PASSWORD</th></tr>
+                </thead>
+                <tbody>
+                    <?php
+                        if ($user_list_query->num_rows == 0) {
+                            echo "<tr><td colspan='3'>No hay usuarios</td></tr>";
+                        }
+                        else {
+                            while ($user = $user_list_query->fetch_array())
+                                echo "<tr><td>{$user['id']}</td><td>{$user['username']}</td><td>{$user['password']}</td></tr>";
+                        }
+                    ?>
+                </tbody>
+            </table>
+        </div>
 	</div>
 </body>
 
 </html>
+
+<?php
+mysqli_close($link);
+?>
