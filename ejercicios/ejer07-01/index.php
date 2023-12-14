@@ -38,7 +38,7 @@
 				<input type="number" name="number3" id="number3">
 			</div>
 
-			<a href="www" class="btn secondary-outline"> Descargar archivo</a>
+			<a href="www" class="btn secondary-outline">Descargar archivo</a>
 
 			<div class="input-set inline">
 				<input class="btn primary" type="submit">

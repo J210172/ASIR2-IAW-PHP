@@ -1,49 +1,30 @@
 <?php
 /* CONFIG */
-define("DB_HOST", "localhost");
-define("DB_USER", "root");
-define("DB_PASS", "root");
-define("DB_DATABASE", "ejercicio_1");
 
-$link = @mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
-
-if (!$link)
-die('Connect Error ('.mysqli_connect_errno().') '.mysqli_connect_error());
-
-if (!mysqli_set_charset($link, "utf8"))
-printf("Error loading character set utf8: %s\n", mysqli_error($link));
 
 
 /* CONNECTION */
 if ($_SERVER['REQUEST_METHOD'] == 'POST' || true) {
 
-    $username = $_POST['username'] ?? null;
-    $passwd1 = $_POST['passwd1'] ?? null;
-    $passwd2 = $_POST['passwd2'] ?? null;
+    $nombre = $_POST['nombre'] ?? null;
+    $descripcion = $_POST['descripcion'] ?? '';
+    $num_albumes = $_POST['num_albumes'] ?? 0;
+    $aragones = (bool) $_POST['aragones'] ?? 0;
     
     $messages = [];
     $error_messages = [];
 
-    
-    if (empty($passwd1)) {
-        $error_messages[] = "La contraseña es obligatoria";
-    }
-    
-    if ($passwd1 != $passwd2) {
-        $error_messages[] = "Las contraseña deben coincidir";
-    }
-
-    if (empty($username)) {
+    if (empty($nombre)) {
         $error_messages[] = "El nombre de usuario es obligatorio";
     } else {
-        $user_exist_query = $link->prepare("SELECT count(*) FROM usuarios WHERE username = ?");
-        $user_exist_query->bind_param('s', $username);
+        $user_exist_query = $link->prepare("SELECT count(*) FROM grupos_musica WHERE nombre = ?");
+        $user_exist_query->bind_param('s', $nombre);
         $user_exist_query->execute();
         $user_exist_query->bind_result($num_rows);
         $user_exist_query->fetch();
 
         if ($num_rows > 0) {
-            $error_messages[] = "Ya existe un usuario con ese nombre";
+            $error_messages[] = "Ya existe un artista / grupo con ese nombre";
         }
 
         $user_exist_query->close();
@@ -51,8 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || true) {
 
     if (empty($error_messages))
     {
-        $query = $link->prepare("INSERT INTO usuarios (username, password) VALUES (?, ?)");
-        $query->bind_param('ss', $username, $passwd1);
+        $query = $link->prepare("INSERT INTO grupos_musica (nombre, descripcion, num_albumes, aragones) VALUES (?, ?, ?, ?)");
+        $query->bind_param('ssii', $nombre, $descripcion, $num_albumes, $aragones);
 
         $query->execute();
         $query->close();
@@ -68,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || true) {
     <meta name="viewport" content="width=1920, initial-scale=1.0">
     <title>Ejer 09 - 1</title>
 	<link rel="stylesheet" href="/assets/css/styles.css">
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
 </head>
 
 <body>
@@ -97,17 +79,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || true) {
                 </div>
             </div>
 			<form class="d-grid content middle" method="post">
-				<div class="input-set">
-					<label for="username">Introduce tu nick: </label>
-					<input type="text" name="username" id="username">
+                <div class="input-set">
+					<label for="nombre">Nombre del Artista / Grupo: </label>
+					<input type="text" name="nombre" id="nombre">
 				</div>
 				<div class="input-set">
-					<label for="passwd1">Introduce tu contraseña:</label>
-					<input type="password" name="passwd1" id="passwd1">
+					<label for="descripcion">Descripcion:</label>
+                    <textarea name="descripcion" id="descripcion"></textarea>
 				</div>
 				<div class="input-set">
-					<label for="passwd2">Repite tu contraseña:</label>
-					<input type="password" name="passwd2" id="passwd2">
+                    <label for="num_albumes">Numero de albums</label>
+                    <input type="number" name="num_albumes" id="num_albumes">
+				</div>
+				<div class="input-set">
+                    <label for="aragones">
+                        <input type="checkbox" name="aragones" id="aragones"> Aragones
+                    </label>
 				</div>
 				<div class="input-set inline">
 					<input class="btn primary" type="submit">
@@ -118,19 +105,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || true) {
         <div class="mt-1">
             <table>
                 <thead>
-                    <tr><th colspan="3">USUARIOS</th></tr>
-                    <tr><th>#</th><th>USERNAME</th><th>PASSWORD</th></tr>
+                    <tr><th colspan="5">grupos_musica</th></tr>
+                    <tr><th>#</th><th>NOMBRE</th><th>DESCRIPCION</th><th>NUMERO DE ALBUMS</th><th>ARAGONES</th></tr>
                 </thead>
                 <tbody>
                     <?php
-                        $user_list_query = $link->query('SELECT * FROM usuarios');
+                        $user_list_query = $link->query('SELECT * FROM grupos_musica');
                         
                         if ($user_list_query->num_rows == 0) {
-                            echo "<tr><td colspan='3'>No hay usuarios</td></tr>";
+                            echo "<tr><td colspan='5'>No hay grupos_musica</td></tr>";
                         }
                         else {
-                            while ($user = $user_list_query->fetch_array())
-                                echo "<tr><td>{$user['id']}</td><td>{$user['username']}</td><td>{$user['password']}</td></tr>";
+                            while ($user = $user_list_query->fetch_array()) {
+                                $color = ($user['aragones'] == 0) ? 'bad': 'good';
+                                $aragones = ($user['aragones'] == 0) ? 'No': 'Si';
+                                echo "<tr>
+                                    <td>{$user['id']}</td>
+                                    <td>{$user['nombre']}</td>
+                                    <td>{$user['descripcion']}</td>
+                                    <td>{$user['num_albumes']}</td>
+                                    <td class='$color'>$aragones</td>
+                                </tr>";
+                            }
                         }
                     ?>
                 </tbody>
