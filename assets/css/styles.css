@@ -1,3 +1,5 @@
+@import './fonts.css';
+
 :root {
     --bg-color-1: #383838;
     --bg-color-2: #828282;
@@ -24,6 +26,7 @@
 * {
     color: var(--fg-color-1);
     box-sizing: border-box;
+    font-family: 'JetBrains Propo', monospace;
 }
 
 html,
@@ -32,21 +35,38 @@ body {
     height: 100vh;
     background-color: var(--bg-color-1);
     margin: 0 !important;
+    overflow: auto;
+    
 }
 
-.content-30 {
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    position: sticky;
+    bottom: 0;
+
+    background-color: var(--bg-color-2);
+    border-top: 2px solid black;
+
+    padding: 5px;
+}
+
+.container-30 {
     max-width: 30%;
     width: 30%;
     margin-inline: auto;
 }
 
-.content {
+.container {
     max-width: 50%;
     width: 50%;
     margin-inline: auto;
 }
 
-.content-75 {
+.container-75 {
     max-width: 75%;
     width: 75%;
     margin-inline: auto;
@@ -58,6 +78,112 @@ body {
     align-items: center;
 
 }
+
+
+.backdrop {
+    z-index: 1;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #0006;
+    backdrop-filter: blur(5px);
+}
+
+.backdrop>.close {
+    display: none;
+}
+
+/**
+  * MODAL 1
+  **/
+
+.modal-1 {
+    /* box-shadow: 0 0 25px 0 black; */
+    background-color: var(--bg-color-2);
+    border-radius: var(--border-radius);
+
+    margin: auto;
+    width: min-content;
+    height: min-content;
+    
+    position: absolute;
+    top: 0;
+    bottom: 0;
+
+    left: 0;
+    right: 0;
+}
+
+.modal-1 .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: var(--bg-color-1);
+    border-radius: inherit;
+    margin: 5px;
+
+
+    padding: 10px;
+}
+
+.modal-1 .body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin: 10px;
+}
+
+
+/**
+  * MODAL 2
+  **/
+
+.modal-2 {
+    /* box-shadow: 0 0 25px 0 black; */
+    background-color: var(--bg-color-2);
+    border-radius: var(--border-radius);
+
+    margin: auto;
+    width: min-content;
+    height: min-content;
+    
+    position: absolute;
+    top: 0;
+    bottom: 0;
+
+    left: 0;
+    right: 0;
+
+    overflow: hidden;
+}
+
+.modal-2 .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: var(--bg-color-1);
+    /* border-radius: inherit; */
+    /* margin: 5px; */
+
+    padding: 10px;
+}
+
+.modal-2 .body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin: 10px;
+}
+
 
 /**
   * TAMAÑOS
@@ -94,18 +220,39 @@ body {
     margin-right: auto;
 }
 
+.mt-auto {
+    margin-top: auto;
+}
+
 .mt-1 {
     margin-top: 10%;
 }
 
 .box {
-    min-width: 100%;
+    min-width: min-content;
     /* min-height: 400px; */
     padding: 10px;
     background-color: var(--bg-color-2);
     border-radius: var(--border-radius);
 }
 
+/**
+  * Tablas
+  **/
+table {
+    border-radius: var(--border-radius);
+    border-collapse: collapse;
+}
+
+table:first-child {
+    border-radius: var(--border-radius);
+}
+
+table * {
+    border: 1px solid white;
+    padding: 5px 10px;
+    background-color: var(--bg-color-2);
+}
 
 
 /** 
@@ -124,6 +271,10 @@ input, textarea {
     background-color: var(--bg-color-3);
     border-radius: var(--border-radius);
     border: unset;
+}
+
+textarea {
+    width: 100%;
 }
 
 input[type=checkbox] {
@@ -152,10 +303,13 @@ input[type="file"]::-webkit-file-upload-button {
     color: var(--fg-color-1);
 }
 
+input + input {
+    margin-left: 10px;
+}
+
 .input-set {
-    margin: 10px auto;
+    margin: auto;
     width: auto;
-    max-width: 75%;
 }
 
 .input-set.inline {
@@ -168,6 +322,10 @@ input[type="file"]::-webkit-file-upload-button {
 
 .half {
     max-width: 40%;
+}
+
+.input-set + .input-set {
+    margin-top: 10px;
 }
 
 
@@ -194,8 +352,9 @@ input[type="file"]::-webkit-file-upload-button {
 .btn.primary-outline {
     border-radius: var(--border-radius);
     border: 2px solid var(--primary-color);
-    background-color: var(--bg-color-3);
     color: var(--primary-color);
+    background-color: unset;
+    font-weight: bolder;
 }
 
 .btn.secondary {
@@ -208,8 +367,9 @@ input[type="file"]::-webkit-file-upload-button {
 .btn.secondary-outline {
     border-radius: var(--border-radius);
     border: 2px solid var(--secondary-color);
-    background-color: var(--bg-color-3);
     color: var(--secondary-color);
+    background-color: unset;
+    font-weight: bolder;
 }
 
 .btn.danger {
@@ -222,16 +382,21 @@ input[type="file"]::-webkit-file-upload-button {
 .btn.danger-outline {
     border-radius: var(--border-radius);
     border: 2px solid var(--danger-color);
-    background-color: var(--bg-color-3);
     color: var(--danger-color);
+    background-color: unset;
+    font-weight: bolder;
 }
+
+.btn.icon-ony
+
 
 .close-btn {
     margin-left: auto;
     border-radius: 50%;
     border: 2px solid var(--secondary-color);
-    background-color: var(--bg-color-3);
     color: var(--secondary-color);
+    background-color: unset;
+    font-weight: bolder;
 }
 
 /**
@@ -274,18 +439,6 @@ input[type="file"]::-webkit-file-upload-button {
 
 
 /**
-  * Tablas
-  **/
-
-table, table * {
-    border-collapse: collapse;
-    border: 1px solid white;
-    padding: 5px 10px;
-    background-color: var(--bg-color-2);
-}
-
-
-/**
   * Otros
   **/
 
@@ -297,4 +450,16 @@ table, table * {
 .mal, .bad {
     background-color: #911;
     color: #f99;
+}
+
+button.btn.close {
+    width: 20px;
+    height: 20px;
+
+    padding: 0;
+    margin: 0;
+    
+    border: none;
+    border-radius: 50%;
+    background-color: #911;
 }
