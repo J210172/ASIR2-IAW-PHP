@@ -1,31 +1,70 @@
 @import './fonts.css';
 
 :root {
-    --bg-color-1: #383838;
-    --bg-color-2: #828282;
-    --bg-color-3: #ccc;
-    --fg-color-1: #fff;
-    --fg-color-2: #eee;
-    --fg-color-alt: black;
+    --white: #fff;
+    --gray-100: #f8f9fa;
+    --gray-200: #e9ecef;
+    --gray-300: #dee2e6;
+    --gray-400: #ced4da;
+    --gray-500: #adb5bd;
+    --gray-600: #6c757d;
+    --gray-700: #495057;
+    --gray-800: #343a40;
+    --gray-900: #212529;
+    --black: #000;
+    --blue: #0d6efd;
+    --indigo: #6610f2;
+    --purple: #6f42c1;
+    --pink: #d63384;
+    --red: #bb1525;
+    --orange: #fd7e14;
+    --yellow: #ffc107;
+    --green: #209064;
+    --teal: #20c997;
+    --cyan: #0dcaf0;
 
-    --primary-color: blue;
-    --secondary-color: green;
-    --danger-color: darkred;
+    --primary: var(--blue);
+    --secondary: var(--gray-600);
+    --success: var(--green);
+    --info: var(--cyan);
+    --warning: var(--yellow);
+    --danger: var(--red);
+    --light: var(--gray-100);
+    --dark: var(--gray-900);
+
+    --bg-color-1: var(--gray-800);
+    --bg-color-2: var(--gray-600);
+    --bg-color-3: var(--gray-400);
+    --fg-color-1: var(--white);
+    --fg-color-2: var(--gray-200);
+    --fg-color-alt: var(--black);
 
     --success-color: green;
-    --success-sec-color: darkgreen;
-    --success-bg-color: #2a27;
+    --success-color-alt: green;
+    --success-fg-color: greenyellow;
+    --success-fg-color-alt: #334436;
+    --success-bg-color:  var(--green);
+    --success-bg-color-alt:  var(--green);
 
-    --error-color: red;
-    --error-sec-color: darkred;
+    --error-color: #911;
+    --error-color-alt: red;
+    --error-fg-color: darkred;
+    --error-fg-color-at: darkred;
     --error-bg-color: #9228;
+    --error-bg-color-alt: #9228;
+
+    --backdrop-color: #0003;
 
     --border-radius: 8px;
+
 }
 
 * {
-    color: var(--fg-color-1);
     box-sizing: border-box;
+}
+
+html {
+    color: var(--fg-color-1);
     font-family: 'JetBrains Propo', monospace;
 }
 
@@ -36,7 +75,7 @@ body {
     background-color: var(--bg-color-1);
     margin: 0 !important;
     overflow: auto;
-    
+
 }
 
 body {
@@ -88,7 +127,7 @@ footer {
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: #0006;
+    background-color: var(--backdrop-color);
     backdrop-filter: blur(5px);
 }
 
@@ -108,7 +147,7 @@ footer {
     margin: auto;
     width: min-content;
     height: min-content;
-    
+
     position: absolute;
     top: 0;
     bottom: 0;
@@ -152,7 +191,7 @@ footer {
     margin: auto;
     width: min-content;
     height: min-content;
-    
+
     position: absolute;
     top: 0;
     bottom: 0;
@@ -228,6 +267,11 @@ footer {
     margin-top: 10%;
 }
 
+
+/**
+  * PADDING
+  **/
+
 .box {
     min-width: min-content;
     /* min-height: 400px; */
@@ -248,7 +292,9 @@ table:first-child {
     border-radius: var(--border-radius);
 }
 
-table * {
+table tr,
+table th,
+table td {
     border: 1px solid white;
     padding: 5px 10px;
     background-color: var(--bg-color-2);
@@ -298,12 +344,12 @@ input[type="file"]::-webkit-file-upload-button {
     padding: 5px 10px;
     margin-right: 5px;
 
-    background-color: var(--secondary-color);
-    border: 2px solid var(--secondary-color);
+    background-color: var(--suc);
+    border: 2px solid var(--secondary);
     color: var(--fg-color-1);
 }
 
-input + input {
+input+input {
     margin-left: 10px;
 }
 
@@ -324,10 +370,77 @@ input + input {
     max-width: 40%;
 }
 
-.input-set + .input-set {
+.input-set+.input-set {
     margin-top: 10px;
 }
 
+/**
+  * LISTAS
+  **/
+
+ol, ul {
+    all: unset;
+    list-style: none;
+}
+
+/**
+  * ICONOS
+  **/
+
+.icon {
+    font-family: 'NerdFontsSymbols Nerd Font';
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon.xs {
+    font-size: 8px;
+}
+
+.icon.sm {
+    font-size: 16px;
+}
+
+.icon.md {
+    font-size: 24px;
+}
+
+.icon.lg {
+    font-size: 32px;
+}
+
+.icon.xl {
+    font-size: 40px;
+}
+
+.icon.outlined {
+    outline: 2px;
+}
+
+.icon.white {
+    color: var(--white);
+}
+
+.icon.primary {
+    color: var(--primary);
+}
+
+.icon.secondary {
+    color: var(--secondary);
+}
+
+.icon.success {
+    color: var(--success);
+}
+
+.icon.danger {
+    color: var(--danger);
+}
 
 /** 
   * BOTONES
@@ -336,67 +449,110 @@ input + input {
 .btn {
     padding: 5px 10px;
     margin-right: 5px;
+    background-color: unset;
+    border: none;
+    transition: all 0.5s linear;
 }
 
 .btn:hover {
-    filter: brightness(0.7);
+    transition: all 0.25s;
+    filter: brightness(1.5);
 }
+
+.btn:active {
+    transition: all 0s;
+    filter: brightness(2) saturate(2) drop-shadow(0 0 10px var(--white));
+}
+
+.btn.icon-only {
+    padding: 5px;
+}
+
+.btn.circle {
+    border-radius: 50% !important;
+    aspect-ratio: 1;
+}
+
 
 .btn.primary {
     border-radius: var(--border-radius);
-    background-color: var(--primary-color);
-    border: 2px solid var(--primary-color);
+    background-color: var(--primary);
+    border: 2px solid var(--primary);
     color: var(--fg-color-1);
 }
 
 .btn.primary-outline {
     border-radius: var(--border-radius);
-    border: 2px solid var(--primary-color);
-    color: var(--primary-color);
+    border: 2px solid var(--primary);
+    color: var(--primary);
     background-color: unset;
     font-weight: bolder;
 }
 
 .btn.secondary {
     border-radius: var(--border-radius);
-    background-color: var(--secondary-color);
-    border: 2px solid var(--secondary-color);
+    background-color: var(--secondary);
+    border: 2px solid var(--secondary);
     color: var(--fg-color-1);
 }
 
 .btn.secondary-outline {
     border-radius: var(--border-radius);
-    border: 2px solid var(--secondary-color);
-    color: var(--secondary-color);
+    border: 2px solid var(--secondary);
+    color: var(--secondary);
+    background-color: unset;
+    font-weight: bolder;
+}
+
+.btn.success {
+    border-radius: var(--border-radius);
+    background-color: var(--success);
+    border: 2px solid var(--success);
+    color: var(--fg-color-1);
+}
+
+.btn.secondary-outline {
+    border-radius: var(--border-radius);
+    border: 2px solid var(--success);
+    color: var(--success);
     background-color: unset;
     font-weight: bolder;
 }
 
 .btn.danger {
     border-radius: var(--border-radius);
-    background-color: var(--danger-color);
-    border: 2px solid var(--danger-color);
+    background-color: var(--danger);
+    border: 2px solid var(--danger);
     color: var(--fg-color-1);
 }
 
 .btn.danger-outline {
     border-radius: var(--border-radius);
-    border: 2px solid var(--danger-color);
-    color: var(--danger-color);
+    border: 2px solid var(--danger);
+    color: var(--danger);
     background-color: unset;
     font-weight: bolder;
 }
 
-.btn.icon-ony
-
-
 .close-btn {
     margin-left: auto;
     border-radius: 50%;
-    border: 2px solid var(--secondary-color);
-    color: var(--secondary-color);
+    border: 2px solid var(--secondary);
+    color: var(--secondary);
     background-color: unset;
     font-weight: bolder;
+}
+
+.btn.close {
+    width: 20px;
+    height: 20px;
+
+    padding: 0;
+    margin: 0;
+
+    border: none;
+    border-radius: 50%;
+    background-color: #911;
 }
 
 /**
@@ -443,23 +599,27 @@ input + input {
   **/
 
 .bien, .good {
-    background-color: green;
-    color: greenyellow;
+    background-color: var(--success-bg-color);
+    color: var(--success-fg-color);
 }
 
 .mal, .bad {
-    background-color: #911;
-    color: #f99;
+    background-color: var(--error-bg-color);
+    color: var(--error-bg-color);
 }
 
-button.btn.close {
-    width: 20px;
-    height: 20px;
+.flex {
+    display: flex;
+}
 
-    padding: 0;
-    margin: 0;
-    
-    border: none;
-    border-radius: 50%;
-    background-color: #911;
+.center {
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.space-evenly {
+    justify-content: space-evenly;
+    align-content: center;
+    align-items: center;
 }
