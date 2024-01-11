@@ -13,15 +13,12 @@
         <div class="modal-1">
             <div class="header">
                 <div class="title"><b>{{title}}</b></div>
-                <button
-                    onclick="this.parentElement.parentElement.remove; this.parentElement.parentElement.parentElement.remove()"
+                <button                    
                     class="btn close"
                     type="button"
                 >x</button>
             </div>
-            <div class="body">
-                {{body}}
-            </div>
+            <div class="body"></div>
         </div>
     </template>
     <template id="modal-2">
@@ -29,14 +26,11 @@
             <div class="header">
                 <div class="title"><b>{{title}}</b></div>
                 <button
-                    onclick="this.parentElement.parentElement.remove; this.parentElement.parentElement.parentElement.remove()"
                     class="btn close"
                     type="button"
                 ></button>
             </div>
-            <div class="body">
-                {{body}}
-            </div>
+            <div class="body"></div>
         </div>
     </template>
     <template id="login-form">
@@ -82,6 +76,12 @@
     <template id="artist-details">
     </template>
     <template id="artist-deletion">
+        <form method="DELETE">        
+            <div class="input-set">
+                <button class="btn secondary">Cancelar</button>
+                <input class="btn danger" type="submit" value="Delete">
+            </div>
+        </form>
     </template>
     <template id="user-row">
         <tr>
@@ -91,7 +91,7 @@
             <td class="{{bool-class}}">{{is_aragones}}</td>
             <td>
                 <ul class="flex x-center">
-                    <li><button class="btn icon-only inline open-edit-form"><i class="icon md primary nf-fa-edit"></i></button></li>
+                    <li><button class="btn icon-only inline artist-edit-form"><i class="icon md primary nf-fa-edit"></i></button></li>
                     <li><button class="btn icon-only inline"><i class="icon md danger nf-fa-trash_o"></i></button></li>
                 </ul>
             </td>
@@ -128,31 +128,126 @@
         <p>made by yo</p>
     </footer>
     <script>
-        function open_modal(title, body) {
-            let modal = $('template#modal-2').html();
-            modal = '<div class="backdrop">' + modal + '</div>';
-            modal = modal.replace('{{title}}', title);
-            modal = modal.replace('{{body}}', body);
-            $('body').prepend(modal);
+        // TODO: Extract this to his own class 
+        class Modal {
+            #title;
+            #body;
+            #modal;
+
+            constructor(title, body) {
+                this.#title = title;
+                this.#body = body;
+            }
+            
+            set title(title) {
+                this.#title = title; 
+            }
+
+            get title() {
+                return this.#title;
+            }
+            
+            set body(body) {
+                this.#body = body; 
+            }
+
+            get body() {
+                return this.#body;
+            }
+
+            get modal() {
+                return this.#modal;
+            }
+
+            get template() {
+                return $('template#modal-2').html();
+            }
+
+            #build_modal() {
+                let html_modal = '<div class="backdrop">' + this.template + '</div>';
+                html_modal = html_modal.replace('{{title}}', this.#title);
+                let modal = jQuery(html_modal);
+                
+                modal.find('.body').append(this.#body);
+                modal.find('.close').on('click', this.close_modal);
+
+                this.#modal = modal;
+                
+            }
+
+            open_modal() {
+                this.#build_modal();
+                $('.body').prepend(this.#modal);
+            }
+
+            close_modal() {
+                console.log("CECEECECRRARRAR");
+                this.#modal.remove();
+            }
+            
+        }
+        
+        let artistas = [
+            {
+                id: 65,
+                name: "Pepe",
+                alb_num: 3,
+                is_aragones: false
+            },
+            {
+                id: 69,
+                name: "SUPER",
+                alb_num: 69,
+                is_aragones: true
+            },
+        ]
+
+        function add_row(id, name, alb_num, is_aragones) {
+            let tmp_row = $('template#user-row').html();
+            
+            tmp_row=tmp_row.replace('{{id}}', id);
+            tmp_row=tmp_row.replace('{{name}}', name);
+            tmp_row=tmp_row.replace('{{alb_num}}', alb_num);
+            
+            if (is_aragones) {
+                tmp_row=tmp_row.replace('{{is_aragones}}', 'Si');
+                tmp_row=tmp_row.replace('{{bool-class}}', 'bien');
+            } else {
+                tmp_row=tmp_row.replace('{{is_aragones}}', 'no');
+                tmp_row=tmp_row.replace('{{bool-class}}', 'mal');
+            }
+
+            let row = jQuery(tmp_row);
+            row.find('.artist-delete-form').on('click', function() {
+                let modal_body = $('template#artist-deletion').clone();
+                let modal = new Modal('Edit', modal_body)
+                modal.open_modal();
+            });
+
+            row.find('.artist-edit-form').on('click', function() {
+                let modal_body = $('template#artist-form').clone()
+                let modal = new Modal('delete', modal_body)
+                modal.open_modal();
+            });
+
+            return row;
         }
 
-        $('.open-edit-form').on('click', function() {
-           let modal_body = $('template#artist-form').html();
-           open_modal('Edit', modal_body);
-        });
-
-        $('#refresh-table').on('click', function() {
+        function build_table() {            
             let table = $('table#users-table tbody');
-            let tmp_row = $('template#user-row').html();
-
-            tmp_row=tmp_row.replace('{{id}}', '69');
-            tmp_row=tmp_row.replace('{{name}}', 'HoHoHooo!!');
-            tmp_row=tmp_row.replace('{{alb_num}}', '3');
-            tmp_row=tmp_row.replace('{{is_aragones}}', 'Si');
-            tmp_row=tmp_row.replace('{{bool-class}}', 'bien');
-
-            table.append(tmp_row);
+            artistas.forEach(artista => {
+                table.append(add_row(artista.id, artista.name, artista.alb_num, artista.is_aragones));
+            });
+        }
+        
+        $('#refresh-table').on('click', function() {
+            build_table();
         });
+        $(function() {
+            build_table();
+        });
+
+
         /*
         $(function() {
             let modal_body = $('template#artist-form').html();

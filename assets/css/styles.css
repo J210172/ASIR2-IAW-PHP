@@ -50,7 +50,7 @@
     --error-color-alt: red;
     --error-fg-color: darkred;
     --error-fg-color-at: darkred;
-    --error-bg-color: #9228;
+    --error-bg-color: #C66;
     --error-bg-color-alt: #9228;
 
     --backdrop-color: #0003;
@@ -292,12 +292,29 @@ table:first-child {
     border-radius: var(--border-radius);
 }
 
+thead {
+    background-color: var(--gray-700);
+    border-radius: 16px;
+    padding: 10px;
+}
+
+table th:first-child{
+    border-radius:10px 0 0 10px;
+}
+
+table th:last-child{
+    border-radius:0 10px 10px 0;
+}
+
+table tr:not(:last-of-type) td {
+    margin-top: 10px;
+}
+
 table tr,
 table th,
 table td {
-    border: 1px solid white;
-    padding: 5px 10px;
-    background-color: var(--bg-color-2);
+    /* border: 1px solid white; */
+    padding: 0px 10px;
 }
 
 
@@ -605,7 +622,7 @@ ol, ul {
 
 .mal, .bad {
     background-color: var(--error-bg-color);
-    color: var(--error-bg-color);
+    color: var(--error-fg-color);
 }
 
 .flex {
